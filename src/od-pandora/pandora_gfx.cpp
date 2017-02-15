@@ -63,12 +63,7 @@ static int save_thumb(char *path);
 int delay_savestate_frame = 0;
 
 #define VIDEO_FLAGS_INIT SDL_SWSURFACE|SDL_FULLSCREEN
-#ifdef ANDROIDSDL
 #define VIDEO_FLAGS VIDEO_FLAGS_INIT
-#else
-#define VIDEO_FLAGS VIDEO_FLAGS_INIT | SDL_DOUBLEBUF
-#endif
-
 
 static unsigned long next_synctime = 0;
 
@@ -212,18 +207,12 @@ static void open_screen(struct uae_prefs *p)
   {
     if(prSDLScreen == NULL || prSDLScreen->w != p->gfx_size.width || prSDLScreen->h != p->gfx_size.height)
     {
-#if defined(PANDORA) && !defined(WIN32)
-  	  prSDLScreen = SDL_SetVideoMode(p->gfx_size.width, p->gfx_size.height, 16, SDL_HWSURFACE|SDL_FULLSCREEN|SDL_DOUBLEBUF);
-#elif defined(PANDORA) && defined(WIN32)
-  	  prSDLScreen = SDL_SetVideoMode(p->gfx_size.width, p->gfx_size.height, 16, SDL_SWSURFACE|SDL_DOUBLEBUF);
-#else
   	  prSDLScreen = SDL_SetVideoMode(p->gfx_size.width, p->gfx_size.height, 16, SDL_HWSURFACE|SDL_FULLSCREEN);
-#endif
     }
   }
   else
   {
-  	prSDLScreen = SDL_SetVideoMode(picasso_vidinfo.width, picasso_vidinfo.height, 16, SDL_HWSURFACE|SDL_FULLSCREEN|SDL_DOUBLEBUF);
+  	prSDLScreen = SDL_SetVideoMode(picasso_vidinfo.width, picasso_vidinfo.height, 16, SDL_HWSURFACE|SDL_FULLSCREEN);
   }
   if(prSDLScreen != NULL)
   {
